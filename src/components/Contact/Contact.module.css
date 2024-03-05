@@ -1,0 +1,14 @@
+.contactItem {
+   flex-basis: calc((100% - 20px) / 2);
+}
+
+.containerContactItem {
+    border: 1px solid var( --text-dark); 
+    padding: 10px 16px; 
+    border-radius: 4px;
+}
+
+.contactDeleteBtn {
+    display: block;
+    margin-left: auto;
+}
