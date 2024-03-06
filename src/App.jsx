@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ContactForm from './components/ContactForm/ContactForm';
 import SearchBox from './components/SearchBox/SearchBox';
 import ContactList from './components/ContactList/ContactList';
+import { nanoid } from 'nanoid';
 import './App.module.css';
 
 const contactsData = [
@@ -12,14 +13,26 @@ const contactsData = [
 ]
 
 function App() {
- const [contacts, ] = useState(contactsData);
+ const [contacts, setContacts] = useState(contactsData);
+ const [searchText, setSearchText] = useState("");
+
+ const onAddContactsBox = (contactsData) => {
+    const finalContacts = {
+      ...contactsData,
+      id: nanoid(),
+    }
+    setContacts((prevState) => [...prevState, finalContacts]);
+ }
+
+ const filteredContacts = contacts.filter(contact => contact.name.toLowerCase()
+ .includes(searchText.toLowerCase()))
 
   return (
     <>
     <h1>Phonebook</h1>
-    <ContactForm/>
-    <SearchBox/>
-    <ContactList contacts={contacts}/>  
+    <ContactForm onAddContactsBox={onAddContactsBox}/>
+    <SearchBox searchText={searchText} setSearchText={setSearchText}/>
+    <ContactList contacts={filteredContacts} searchText={searchText}/>  
     </>
   )
 }

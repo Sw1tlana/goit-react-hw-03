@@ -41,11 +41,12 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: transform cubic-bezier(0.4, 0, 0.2, 1), transform 0.02s;
+    transition: transform cubic-bezier(0.4, 0, 0.2, 1), transform 0.05s;
 }
 
 .submitFormBtn:focus,
 .submitFormBtn:hover {
     transform: scale(1.02);
+    background-color: var(--dark-blue-background);
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 2px 1px rgba(0, 0, 0, 0.2);
 }
