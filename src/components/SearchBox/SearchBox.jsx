@@ -1,6 +1,6 @@
 import css from './SearchBox.module.css';
 
-const SearchBox = ({ searchText, setSearchText }) => {
+const SearchBox = ({ searchText, handleSearch }) => {
   return (
     <div className={css.searchContainer}>
      <label className={css.labelSearch}>
@@ -9,7 +9,7 @@ const SearchBox = ({ searchText, setSearchText }) => {
       type="text" 
       name="text" 
       value={searchText}
-      onChange={(evt) => setSearchText(evt.target.value)}/>
+      onChange={(evt) => handleSearch(evt.target.value)}/>
       </label>
     </div>
   )

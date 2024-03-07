@@ -1,62 +1,59 @@
-import { useState } from 'react';
 import css from './ContactForm.module.css';
+import { ErrorMessage } from "formik";
+import { Formik, Form, Field } from 'formik';
+import * as Yup from "yup";
 
-const ContactForm = ({ onAddContactsBox }) => {
-const [values, setValues] = useState({
-  name: "",
-  number: ""
+const ContactFormSchema = Yup.object().shape({
+  name: Yup.string()
+  .min(3, "User name must be at least 3 characters!")
+  .max(50, "User name must be less then 50 characters!")
+  .required("User name is required"),
+  number: Yup.string()
+  .min(3, "User name must be at least 3 characters!")
+  .max(50, "User name must be less then 50 characters!")
+  .required("User name is required")
 });
 
-const handleChange = (evt) => {
-
-  const key = evt.target.name;
-  const value = evt.target.value;
-
-  setValues({...values, [key]: value});
-
-}
-
-const handleFormSubmit = (evt) => {
-evt.preventDefault();
-
-const formData = {
-  name: values.name,
-  number: values.number,
-}
-
-onAddContactsBox(formData);
-
-setValues({
+const INITIAL_FORM_DATA = {
   name: "",
   number: ""
-})
 }
 
+const ContactForm = ({ handleAddContact }) => {
+
+const handleSubmit = (data, formActions) => {
+  handleAddContact(data);
+  formActions.resetForm();
+  }
+
   return (
-    <div>
-      <form onSubmit={handleFormSubmit} className={css.form}>
+        <Formik 
+        validationSchema={ContactFormSchema}
+        initialValues={INITIAL_FORM_DATA} 
+        onSubmit={handleSubmit}>
+
+      <Form className={css.form}>
         <label className={css.labelForm}>
           <span className={css.labelTextForm}>Name</span>
-          <input className={css.inputContactForm}
+          <Field className={css.inputContactForm}
           type="text" 
           name="name"
-          value={values.name} 
-          onChange={handleChange}
-          required/>
+          />
+          <ErrorMessage className={css.errorMsg} name="name" component="span" />
         </label>
+
         <label className={css.labelForm}>
           <span className={css.labelTextForm}>Number</span>
-          <input className={css.inputContactForm} 
+          <Field className={css.inputContactForm} 
           type="number" 
           name="number"
-          value={values.number} 
-          onChange={handleChange}
-          required/>
+         />
+          <ErrorMessage className={css.errorMsg} name="number" component="span" />
         </label>
-        <button className={css.submitFormBtn} type="submit">Add contact</button>
-      </form>
 
-    </div>
+        <button className={css.submitFormBtn} type="submit">Add contact</button>
+      </Form>
+      </Formik>
   )
 }
 
