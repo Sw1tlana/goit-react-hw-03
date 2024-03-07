@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+import css from './App.module.css';
 import ContactForm from './components/ContactForm/ContactForm';
 import SearchBox from './components/SearchBox/SearchBox';
 import ContactList from './components/ContactList/ContactList';
-import { nanoid } from 'nanoid';
-import './App.module.css';
 
 const initialContactsData = [
   {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -13,17 +13,12 @@ const initialContactsData = [
 ]
 
 function App() {
- const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(() => {
+    const storedContacts = JSON.parse(localStorage.getItem('contacts'));
+    return storedContacts || initialContactsData;
+ });
  const [searchText, setSearchText] = useState("");
  const [filteredContacts, setFilteredContacts] = useState([]);
-
- useEffect(() => {
- const storedContacts = JSON.parse(localStorage.getItem('contacts'));
- if (storedContacts) {
-  setContacts(storedContacts);
- } else {
-  setContacts(initialContactsData);
- }}, []);
 
  const handleAddContact = (newContact) => {
     setContacts([...contacts, {...newContact, id: nanoid()}])
@@ -36,26 +31,26 @@ function App() {
   const handleDeleteContact = (contactId) => {
     const updateContacts = contacts.filter(contact => contact.id !== contactId);
     setContacts(updateContacts);
-  }
+  };
 
   useEffect(() => {
-    const filteredContacts = initialContactsData.filter(contact =>
+    const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredContacts(filteredContacts);
-  }, [searchText]);
+  }, [searchText, contacts]);
 
  useEffect(() => {
   localStorage.setItem('contacts', JSON.stringify(contacts))
  }, [contacts]);
 
   return (
-    <>
-    <h1>Phonebook</h1>
+    <div className={css.formWrapper}>
+    <h1 className={css.heroFormTitle}>Phonebook</h1>
     <ContactForm handleAddContact={handleAddContact}/>
     <SearchBox searchText={searchText} handleSearch={handleSearch}/>
     <ContactList contacts={filteredContacts} onDeleteContact={handleDeleteContact}/>  
-    </>
+    </div>
   )
 }
 

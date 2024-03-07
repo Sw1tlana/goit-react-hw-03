@@ -10,7 +10,7 @@ const Contact = ({ id, name, number, onDelete }) => {
     <div>
       <li className={css.contactItem}>
         <div className={css.containerContactItem}>
-          <div>
+          <div className={css.containerInfo}>
             <p><FaUser /><span className={css.contactInfo}>{name}</span></p>
             <p><FaPhoneAlt /><span className={css.contactInfo}>{number}</span></p>
           </div>

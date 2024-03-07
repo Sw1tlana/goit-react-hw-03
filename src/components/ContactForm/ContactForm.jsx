@@ -9,9 +9,9 @@ const ContactFormSchema = Yup.object().shape({
   .max(50, "User name must be less then 50 characters!")
   .required("User name is required"),
   number: Yup.string()
-  .min(3, "User name must be at least 3 characters!")
-  .max(50, "User name must be less then 50 characters!")
-  .required("User name is required")
+  .min(3, "Phone number must be at least 3 characters!")
+  .max(50, "Phone number must be less than 50 characters!")
+  .required("Phone number is required")
 });
 
 const INITIAL_FORM_DATA = {
@@ -27,7 +27,7 @@ const handleSubmit = (data, formActions) => {
   }
 
   return (
-        <Formik 
+      <Formik 
         validationSchema={ContactFormSchema}
         initialValues={INITIAL_FORM_DATA} 
         onSubmit={handleSubmit}>
@@ -45,7 +45,7 @@ const handleSubmit = (data, formActions) => {
         <label className={css.labelForm}>
           <span className={css.labelTextForm}>Number</span>
           <Field className={css.inputContactForm} 
-          type="number" 
+          type="text" 
           name="number"
          />
           <ErrorMessage className={css.errorMsg} name="number" component="span" />
